@@ -20,18 +20,13 @@ A 3-month roadmap and execution action plan for becoming job-ready as a Data Eng
 | Phase 3 | 9–12 | Google Cloud + Final Portfolio Project |
 
 ## 🌐 Live Site
-View at: `https://[your-username].github.io/data-roadmap`
+View at: `https://kizito72.github.io/Data-Engineering-Training-Roadmap/`
 
 ## 🔔 Google Calendar Setup
 1. Go to [script.google.com](https://script.google.com)
 2. New project → paste code from the **Google Calendar** tab
 3. Run `setupStudySessions` → authorize → done!
 
-## 📦 Deploy to GitHub Pages
-1. Fork or clone this repo
-2. Go to **Settings → Pages**
-3. Set source to `main` branch, root folder
-4. Your site is live at `https://[username].github.io/[repo-name]`
 
 ---
 Built for disciplined execution. 90 days. Real projects. Job ready.
