@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data Engineering Roadmap — 3-Month Execution Plan</title>
+
+<!-- Google Fonts: Academic + Clean -->
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ─────────────────────────────────────────────
+   CSS CUSTOM PROPERTIES — Light Academic Theme
+   ───────────────────────────────────────────── */
+:root {
+  --bg:           #f7f6f2;
+  --surface:      #ffffff;
+  --surface2:     #f0ede6;
+  --border:       #ddd8cd;
+  --accent:       #2d5a8e;       /* Oxford blue */
+  --accent-light: #d6e4f7;
+  --accent2:      #b5500b;       /* burnt sienna */
+  --accent3:      #2a7a4b;       /* forest green */
+  --text:         #1a1a2e;
+  --text-muted:   #6b6b7b;
+  --phase1:       #2d5a8e;
+  --phase2:       #b5500b;
+  --phase3:       #2a7a4b;
+  --warn:         #c0392b;
+  --radius:       8px;
+  --shadow:       0 2px 12px rgba(0,0,0,0.07);
+  --shadow-md:    0 4px 24px rgba(0,0,0,0.10);
+  --font-head:    'Playfair Display', Georgia, serif;
+  --font-body:    'Source Sans 3', 'Segoe UI', sans-serif;
+  --font-mono:    'Source Code Pro', 'Courier New', monospace;
+}
+
+/* ─── RESET ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT ─────────────────────────────── */
+.page-wrap { max-width: 1060px; margin: 0 auto; padding: 0 24px 80px; }
+
+/* ─── HEADER ─────────────────────────────── */
+header {
+  background: var(--surface);
+  border-bottom: 3px solid var(--accent);
+  padding: 32px 0 0;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: var(--shadow);
+}
+.header-inner {
+  max-width: 1060px; margin: 0 auto; padding: 0 24px;
+}
+.header-top {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.brand h1 {
+  font-family: var(--font-head);
+  font-size: 1.7rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -0.5px;
+}
+.brand p { font-size: 0.82rem; color: var(--text-muted); margin-top: 2px; }
+
+.header-meta {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+#current-date-badge {
+  background: var(--accent); color: #fff;
+  font-family: var(--font-mono); font-size: 0.75rem;
+  padding: 4px 10px; border-radius: 20px;
+}
+#progress-badge {
+  background: var(--accent3); color: #fff;
+  font-size: 0.75rem; padding: 4px 10px; border-radius: 20px;
+  font-weight: 600;
+}
+
+/* NAV TABS */
+nav { margin-top: 20px; display: flex; gap: 2px; flex-wrap: wrap; }
+.nav-tab {
+  padding: 8px 18px; font-size: 0.83rem; font-weight: 600;
+  border: none; background: transparent; cursor: pointer;
+  color: var(--text-muted); border-bottom: 3px solid transparent;
+  transition: all .18s; letter-spacing: 0.3px;
+}
+.nav-tab:hover { color: var(--accent); }
+.nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--accent-light); }
+
+/* ─── SECTIONS (tab panels) ──────────────── */
+.tab-panel { display: none; padding-top: 32px; }
+.tab-panel.active { display: block; }
+
+/* ─── SECTION TITLES ─────────────────────── */
+.section-title {
+  font-family: var(--font-head);
+  font-size: 1.45rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px;
+}
+.divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+/* ─── CARDS ──────────────────────────────── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 24px;
+  box-shadow: var(--shadow); margin-bottom: 20px;
+}
+.card-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 600;
+  margin-bottom: 10px;
+}
+
+/* ─── PHASE CARDS ────────────────────────── */
+.phase-card {
+  border-left: 5px solid;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.phase-card.p1 { border-left-color: var(--phase1); }
+.phase-card.p2 { border-left-color: var(--phase2); }
+.phase-card.p3 { border-left-color: var(--phase3); }
+.phase-header {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.phase-tag {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 1px;
+  padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+}
+.phase-card.p1 .phase-tag { background: #dbeafe; color: var(--phase1); }
+.phase-card.p2 .phase-tag { background: #fde8d6; color: var(--phase2); }
+.phase-card.p3 .phase-tag { background: #d1fae5; color: var(--phase3); }
+.phase-title {
+  font-family: var(--font-head); font-size: 1.15rem; font-weight: 700;
+  margin-bottom: 4px;
+}
+.phase-weeks { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px; }
+
+/* WEEK BLOCKS inside phases */
+.week-block {
+  background: var(--surface2); border-radius: 6px;
+  padding: 14px 16px; margin-bottom: 12px;
+}
+.week-label {
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.6px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;
+}
+.week-title { font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
+
+/* ─── TASK CHECKLIST ─────────────────────── */
+.task-list { list-style: none; }
+.task-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 6px 0; border-bottom: 1px solid var(--border);
+  transition: opacity .2s;
+}
+.task-item:last-child { border-bottom: none; }
+.task-item.done { opacity: 0.55; }
+.task-item.done .task-label { text-decoration: line-through; color: var(--text-muted); }
+.task-cb {
+  width: 17px; height: 17px; flex-shrink: 0; margin-top: 3px;
+  accent-color: var(--accent); cursor: pointer;
+}
+.task-label { font-size: 0.9rem; cursor: pointer; }
+.task-label span { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent2); }
+
+/* ─── TIMER / STUDY SESSION ──────────────── */
+.timer-card {
+  background: var(--accent); color: #fff;
+  border-radius: var(--radius); padding: 28px 28px;
+  box-shadow: var(--shadow-md); margin-bottom: 24px;
+}
+.timer-card h2 {
+  font-family: var(--font-head); font-size: 1.15rem;
+  margin-bottom: 18px; opacity: 0.92;
+}
+.timer-display {
+  font-family: var(--font-mono); font-size: 3.5rem; font-weight: 700;
+  letter-spacing: 4px; text-align: center;
+  background: rgba(255,255,255,.12); border-radius: 8px;
+  padding: 12px 0; margin: 14px 0;
+}
+.timer-meta {
+  font-size: 0.82rem; opacity: 0.8; text-align: center; margin-bottom: 16px;
+}
+.timer-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+  padding: 9px 20px; border-radius: 6px; font-size: 0.85rem;
+  font-weight: 600; cursor: pointer; border: none; transition: all .15s;
+  font-family: var(--font-body); letter-spacing: 0.3px;
+}
+.btn-primary { background: #fff; color: var(--accent); }
+.btn-primary:hover { background: #e8f0fb; }
+.btn-secondary { background: rgba(255,255,255,.18); color: #fff; border: 1px solid rgba(255,255,255,.3); }
+.btn-secondary:hover { background: rgba(255,255,255,.28); }
+.btn-danger { background: var(--warn); color: #fff; }
+.btn-danger:hover { opacity: .88; }
+.btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+.btn-green { background: var(--accent3); color: #fff; }
+.btn-green:hover { opacity: .88; }
+
+/* Session type selector */
+.session-type {
+  display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.stype-btn {
+  padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+  border: 2px solid rgba(255,255,255,.4); background: transparent; color: #fff;
+  cursor: pointer; transition: all .15s;
+}
+.stype-btn.active { background: #fff; color: var(--accent); border-color: #fff; }
+
+/* ─── SCHEDULE / CALENDAR ────────────────── */
+.schedule-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.sched-day {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+}
+.sched-day-label {
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--text-muted); margin-bottom: 10px;
+}
+.sched-slot {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px; border-radius: 5px; margin-bottom: 6px;
+  font-size: 0.85rem;
+}
+.sched-slot.work { background: #fef3cd; border-left: 3px solid #f59e0b; }
+.sched-slot.study { background: var(--accent-light); border-left: 3px solid var(--accent); }
+.sched-slot.free { background: #f0fdf4; border-left: 3px solid var(--accent3); }
+.slot-time { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.slot-label { font-weight: 500; }
+
+/* ─── CUSTOMIZE TIME MODAL ───────────────── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.45); z-index: 1000;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface); border-radius: 10px;
+  padding: 30px; max-width: 460px; width: 90%;
+  box-shadow: var(--shadow-md);
+}
+.modal h3 {
+  font-family: var(--font-head); font-size: 1.15rem;
+  margin-bottom: 18px; color: var(--accent);
+}
+.form-group { margin-bottom: 14px; }
+.form-group label {
+  display: block; font-size: 0.82rem; font-weight: 600;
+  color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.form-group input[type="time"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%; padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 6px; font-family: var(--font-mono); font-size: 0.9rem;
+  background: var(--bg); color: var(--text); outline: none;
+}
+.form-group input:focus, .form-group select:focus { border-color: var(--accent); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn-outline {
+  padding: 8px 18px; border: 2px solid var(--border); background: transparent;
+  border-radius: 6px; font-size: 0.85rem; cursor: pointer; font-weight: 600;
+  font-family: var(--font-body);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ─── GOOGLE CALENDAR SECTION ────────────── */
+.gcal-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 24px;
+  box-shadow: var(--shadow); margin-bottom: 20px;
+}
+.gcal-card h3 {
+  font-family: var(--font-head); font-size: 1.0rem; color: var(--accent);
+  margin-bottom: 10px;
+}
+.code-block {
+  background: #1e1e2e; color: #cdd6f4;
+  border-radius: 6px; padding: 16px 18px;
+  font-family: var(--font-mono); font-size: 0.78rem;
+  line-height: 1.7; overflow-x: auto; white-space: pre;
+  margin: 10px 0;
+}
+.code-block .kw { color: #89b4fa; }
+.code-block .str { color: #a6e3a1; }
+.code-block .cm { color: #6c7086; }
+.copy-btn {
+  float: right; margin-top: -4px;
+  background: var(--accent); color: #fff;
+  border: none; padding: 4px 12px; border-radius: 4px;
+  font-size: 0.75rem; cursor: pointer; font-family: var(--font-body);
+}
+.copy-btn:hover { opacity: .85; }
+
+/* ─── PROGRESS TRACKER ───────────────────── */
+.progress-overview {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 14px; margin-bottom: 24px;
+}
+.prog-stat {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px; text-align: center;
+  box-shadow: var(--shadow);
+}
+.prog-number {
+  font-family: var(--font-head); font-size: 2rem; font-weight: 700;
+  color: var(--accent); line-height: 1;
+}
+.prog-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+.progress-bar-wrap {
+  background: var(--surface2); border-radius: 100px;
+  height: 10px; margin: 12px 0 4px; overflow: hidden;
+}
+.progress-bar {
+  height: 100%; border-radius: 100px; background: var(--accent);
+  transition: width .4s ease;
+}
+
+/* ─── DAILY LOG ──────────────────────────── */
+.daily-log {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px; margin-bottom: 16px;
+}
+.log-entry {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--surface2);
+  font-size: 0.88rem;
+}
+.log-entry:last-child { border-bottom: none; }
+.log-day { font-family: var(--font-mono); color: var(--text-muted); font-size: 0.78rem; width: 52px; flex-shrink: 0; }
+.log-text { flex: 1; }
+.log-status { font-size: 0.78rem; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+.log-status.done { background: #d1fae5; color: #065f46; }
+.log-status.skip { background: #fee2e2; color: #7f1d1d; }
+
+/* ─── ALARM ALERT ────────────────────────── */
+.alarm-toast {
+  display: none; position: fixed; bottom: 28px; right: 28px;
+  background: var(--warn); color: #fff; border-radius: 10px;
+  padding: 16px 22px; box-shadow: var(--shadow-md); z-index: 500;
+  max-width: 280px;
+  animation: slideUp .3s ease;
+}
+.alarm-toast.show { display: block; }
+.alarm-toast h4 { font-size: 0.9rem; margin-bottom: 4px; }
+.alarm-toast p { font-size: 0.82rem; opacity: .9; }
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ─── TIPS BOX ───────────────────────────── */
+.tips-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px; margin-bottom: 24px;
+}
+.tip-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px;
+  font-size: 0.85rem; line-height: 1.5;
+}
+.tip-icon { font-size: 1.3rem; margin-bottom: 8px; }
+.tip-title { font-weight: 700; margin-bottom: 5px; font-size: 0.88rem; }
+
+/* ─── MISC ───────────────────────────────── */
+.badge {
+  display: inline-block; padding: 2px 9px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; margin-right: 4px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-blue { background: #dbeafe; color: var(--phase1); }
+.badge-orange { background: #fde8d6; color: var(--phase2); }
+.badge-green { background: #d1fae5; color: #065f46; }
+.badge-gray { background: var(--surface2); color: var(--text-muted); }
+
+.info-box {
+  background: var(--accent-light); border: 1px solid #93c5fd;
+  border-radius: 6px; padding: 12px 16px; font-size: 0.85rem;
+  margin-bottom: 16px; color: #1e3a5f;
+}
+.warn-box {
+  background: #fff3cd; border: 1px solid #ffc107;
+  border-radius: 6px; padding: 12px 16px; font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .progress-overview { grid-template-columns: repeat(2, 1fr); }
+  .timer-display { font-size: 2.4rem; }
+  .brand h1 { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     HEADER
+════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="brand">
+        <h1>📊 Data Engineering Roadmap</h1>
+        <p>3-Month Execution Plan — Job Readiness by <span id="end-date-label"></span></p>
+      </div>
+      <div class="header-meta">
+        <span id="current-date-badge">Loading…</span>
+        <span id="progress-badge">0% Complete</span>
+      </div>
+    </div>
+    <nav>
+      <button class="nav-tab active" onclick="showTab('dashboard')">🏠 Dashboard</button>
+      <button class="nav-tab" onclick="showTab('roadmap')">🗺️ Roadmap</button>
+      <button class="nav-tab" onclick="showTab('checklist')">✅ Checklist</button>
+      <button class="nav-tab" onclick="showTab('timer')">⏱️ Study Timer</button>
+      <button class="nav-tab" onclick="showTab('schedule')">📅 Schedule</button>
+      <button class="nav-tab" onclick="showTab('gcal')">🔔 Google Calendar</button>
+      <button class="nav-tab" onclick="showTab('log')">📒 Daily Log</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════
+     PAGE WRAP
+════════════════════════════════════ -->
+<div class="page-wrap">
+
+<!-- ──────────────────────────────────
+     TAB 1: DASHBOARD
+────────────────────────────────── -->
+<section id="tab-dashboard" class="tab-panel active">
+  <h2 class="section-title">Welcome Back 👋</h2>
+  <p class="section-sub">Your 3-month data engineering execution plan. Stay consistent — projects matter more than certificates.</p>
+
+  <!-- Progress overview -->
+  <div class="progress-overview">
+    <div class="prog-stat">
+      <div class="prog-number" id="days-elapsed">0</div>
+      <div class="prog-label">Days Elapsed</div>
+    </div>
+    <div class="prog-stat">
+      <div class="prog-number" id="days-remain">90</div>
+      <div class="prog-label">Days Remaining</div>
+    </div>
+    <div class="prog-stat">
+      <div class="prog-number" id="tasks-done-count">0</div>
+      <div class="prog-label">Tasks Done</div>
+    </div>
+  </div>
+
+  <!-- Overall progress bar -->
+  <div class="card" style="padding:16px 22px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <span style="font-weight:600;font-size:0.9rem;">Overall Roadmap Progress</span>
+      <span id="pct-label" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--accent);">0%</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="overall-bar" style="width:0%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:0.74rem;color:var(--text-muted);margin-top:5px;">
+      <span id="start-date-label2">Start</span><span>End (90 days)</span>
+    </div>
+  </div>
+
+  <!-- Phase progress -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px;">
+    <div class="card">
+      <div class="card-title" style="color:var(--phase1)">📘 Phase 1 — Foundations</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:10px;">Weeks 1–4 · SQL + Python</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-p1" style="width:0%;background:var(--phase1)"></div></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;"><span id="p1-done">0</span>/<span id="p1-total">0</span> tasks</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--phase2)">⚙️ Phase 2 — Engineering</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:10px;">Weeks 5–8 · ETL + Modeling</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-p2" style="width:0%;background:var(--phase2)"></div></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;"><span id="p2-done">0</span>/<span id="p2-total">0</span> tasks</div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--phase3)">☁️ Phase 3 — Cloud &amp; Jobs</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:10px;">Weeks 9–12 · GCP + Portfolio</div>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="bar-p3" style="width:0%;background:var(--phase3)"></div></div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:5px;"><span id="p3-done">0</span>/<span id="p3-total">0</span> tasks</div>
+    </div>
+  </div>
+
+  <!-- Target outcomes -->
+  <div class="card">
+    <div class="card-title">🎯 Target Outcomes (Day 90)</div>
+    <ul class="task-list" id="outcomes-list">
+      <li class="task-item" data-key="out-1"><input type="checkbox" class="task-cb" onchange="toggleTask(this)"><label class="task-label">Build and deploy a data pipeline (end-to-end)</label></li>
+      <li class="task-item" data-key="out-2"><input type="checkbox" class="task-cb" onchange="toggleTask(this)"><label class="task-label">Work confidently with SQL + Python + ETL</label></li>
+      <li class="task-item" data-key="out-3"><input type="checkbox" class="task-cb" onchange="toggleTask(this)"><label class="task-label">Use Google Cloud Platform (BigQuery)</label></li>
+      <li class="task-item" data-key="out-4"><input type="checkbox" class="task-cb" onchange="toggleTask(this)"><label class="task-label">Have 2–3 real projects on GitHub</label></li>
+      <li class="task-item" data-key="out-5"><input type="checkbox" class="task-cb" onchange="toggleTask(this)"><label class="task-label">Apply for Junior Data Engineer / Data Analyst roles</label></li>
+    </ul>
+  </div>
+
+  <!-- Quick tips -->
+  <h3 style="font-family:var(--font-head);font-size:1rem;margin-bottom:14px;margin-top:4px;">💡 Golden Rules</h3>
+  <div class="tips-grid">
+    <div class="tip-card"><div class="tip-icon">🚫</div><div class="tip-title">No Tutorial Watching</div>Always code along. Passive watching = zero retention.</div>
+    <div class="tip-card"><div class="tip-icon">🗄️</div><div class="tip-title">SQL First, Always</div>Most candidates skip SQL. Don't. It's your competitive edge.</div>
+    <div class="tip-card"><div class="tip-icon">🚀</div><div class="tip-title">Projects &gt; Certificates</div>Hiring managers look at GitHub, not Udemy badges.</div>
+    <div class="tip-card"><div class="tip-icon">☁️</div><div class="tip-title">Cloud = Employability</div>GCP knowledge puts you ahead of 80% of entry-level candidates.</div>
+    <div class="tip-card"><div class="tip-icon">🔁</div><div class="tip-title">Push to GitHub Daily</div>Even tiny commits show activity and discipline.</div>
+    <div class="tip-card"><div class="tip-icon">⏰</div><div class="tip-title">Consistency &gt; Intensity</div>2 hours daily beats 14-hour weekend binges every time.</div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 2: ROADMAP
+────────────────────────────────── -->
+<section id="tab-roadmap" class="tab-panel">
+  <h2 class="section-title">3-Month Roadmap</h2>
+  <p class="section-sub">Each phase builds on the last. Do not skip ahead.</p>
+
+  <!-- PHASE 1 -->
+  <div class="phase-card p1">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">📘 Phase 1 — Foundations</div>
+        <div class="phase-weeks">Weeks 1–4 · Approx. <span id="p1-dates"></span></div>
+      </div>
+      <span class="phase-tag">SQL + Python</span>
+    </div>
+    <p style="font-size:0.88rem;margin-bottom:16px;color:var(--text-muted);">SQL is non-negotiable. Python enables automation. Data thinking connects them.</p>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 1–2</div>
+      <div class="week-title">SQL — Non-Negotiable</div>
+      <span class="badge badge-blue">DataCamp</span><span class="badge badge-gray">Educative.io</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p1-w12"></ul>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 3–4</div>
+      <div class="week-title">Python for Data</div>
+      <span class="badge badge-blue">DataCamp</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p1-w34"></ul>
+    </div>
+
+    <div class="info-box">📦 <strong>Mini Project:</strong> "Sales Data Analysis Script" — Load CSV, clean data, generate insights. Push to GitHub.</div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-card p2">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">⚙️ Phase 2 — Core Data Engineering</div>
+        <div class="phase-weeks">Weeks 5–8 · Approx. <span id="p2-dates"></span></div>
+      </div>
+      <span class="phase-tag">ETL + Modeling</span>
+    </div>
+    <p style="font-size:0.88rem;margin-bottom:16px;color:var(--text-muted);">Build real pipelines. This is what data engineers do every day.</p>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 5–6</div>
+      <div class="week-title">ETL Pipelines</div>
+      <span class="badge badge-orange">DataTalksClub</span><span class="badge badge-gray">Coursera</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p2-w56"></ul>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 7–8</div>
+      <div class="week-title">Workflow + Data Modeling</div>
+      <span class="badge badge-orange">DataTalksClub</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p2-w78"></ul>
+    </div>
+
+    <div class="info-box">📦 <strong>Project 1:</strong> "API → Database Pipeline" — Fetch API, transform with Python, store in PostgreSQL.<br>
+    📦 <strong>Project 2:</strong> "Automated Data Pipeline" — Schedule ingestion, store structured data, query with SQL.</div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-card p3">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">☁️ Phase 3 — Cloud + Job Readiness</div>
+        <div class="phase-weeks">Weeks 9–12 · Approx. <span id="p3-dates"></span></div>
+      </div>
+      <span class="phase-tag">GCP + Portfolio</span>
+    </div>
+    <p style="font-size:0.88rem;margin-bottom:16px;color:var(--text-muted);">Cloud tools are what actually get you hired. This is your differentiator.</p>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 9–10</div>
+      <div class="week-title">Cloud Basics (GCP)</div>
+      <span class="badge badge-green">Google Cloud</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p3-w910"></ul>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">Weeks 11–12</div>
+      <div class="week-title">Final Portfolio Project</div>
+      <span class="badge badge-green">Google Cloud</span><span class="badge badge-blue">GitHub</span>
+      <ul class="task-list" style="margin-top:10px;" id="tasks-p3-w1112"></ul>
+    </div>
+
+    <div class="info-box">🚀 <strong>Project 3 (Main):</strong> "End-to-End Data Pipeline" — API → Cloud Storage → Python Transform → BigQuery → Dashboard</div>
+  </div>
+
+  <!-- GitHub targets -->
+  <div class="card">
+    <div class="card-title">📂 GitHub Should Contain</div>
+    <ul class="task-list" id="github-checklist"></ul>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 3: CHECKLIST
+────────────────────────────────── -->
+<section id="tab-checklist" class="tab-panel">
+  <h2 class="section-title">Daily &amp; Weekly Checklist</h2>
+  <p class="section-sub">Check tasks as you complete them. Progress is saved automatically.</p>
+
+  <!-- Daily template -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:22px;">
+    <div class="card">
+      <div class="card-title">🟢 Weekday Block 1 — Learning (60 min)</div>
+      <ul class="task-list" id="wd-b1"></ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🟢 Weekday Block 2 — Practice (60 min)</div>
+      <ul class="task-list" id="wd-b2"></ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🟢 Weekend Block 1 — Deep Work (2 hr)</div>
+      <ul class="task-list" id="we-b1"></ul>
+    </div>
+    <div class="card">
+      <div class="card-title">🟢 Weekend Block 2 — Reinforcement (2 hr)</div>
+      <ul class="task-list" id="we-b2"></ul>
+    </div>
+  </div>
+
+  <!-- Weekly self-check -->
+  <div class="card">
+    <div class="card-title">📊 Weekly Self-Check (Every Sunday)</div>
+    <ul class="task-list" id="weekly-check"></ul>
+  </div>
+
+  <!-- Productivity rules -->
+  <div class="card">
+    <div class="card-title">🔥 Productivity Rules (Non-Negotiable)</div>
+    <ul class="task-list" id="prod-rules"></ul>
+  </div>
+
+  <div class="warn-box">⚠️ <strong>Critical Mistakes to Avoid:</strong> Watching tutorials without coding · Skipping SQL · Avoiding projects until "ready" · Trying to learn everything at once</div>
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 4: STUDY TIMER
+────────────────────────────────── -->
+<section id="tab-timer" class="tab-panel">
+  <h2 class="section-title">⏱️ Study Session Timer</h2>
+  <p class="section-sub">Start your timer to begin a session. A beep plays at start; an alarm sounds at 10-minute warning and end.</p>
+
+  <!-- Timer card -->
+  <div class="timer-card">
+    <h2>🎓 Study Session</h2>
+    <div class="session-type">
+      <button class="stype-btn active" onclick="setSession(60,'Weekday Learning')">Weekday · 60 min</button>
+      <button class="stype-btn" onclick="setSession(60,'Weekday Practice')">Practice · 60 min</button>
+      <button class="stype-btn" onclick="setSession(120,'Weekend Deep Work')">Weekend · 2 hrs</button>
+      <button class="stype-btn" onclick="setSession(30,'Quick Review')">Quick · 30 min</button>
+    </div>
+    <div class="timer-meta" id="session-label">Session: Weekday Learning · 60 minutes</div>
+    <div class="timer-display" id="timer-display">60:00</div>
+    <div class="timer-meta" id="timer-status">Ready to start. Press Start to begin your session.</div>
+    <div class="timer-controls">
+      <button class="btn btn-primary" id="btn-start" onclick="startTimer()">▶ Start</button>
+      <button class="btn btn-secondary" id="btn-pause" onclick="pauseTimer()" disabled>⏸ Pause</button>
+      <button class="btn btn-danger btn-sm" onclick="resetTimer()">↺ Reset</button>
+      <button class="btn btn-secondary btn-sm" onclick="openTimeModal()">⚙ Customize Time</button>
+    </div>
+  </div>
+
+  <!-- Alarm settings -->
+  <div class="card">
+    <div class="card-title">🔔 Alarm Preferences</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:8px;">
+      <label style="display:flex;align-items:center;gap:8px;font-size:0.88rem;">
+        <input type="checkbox" id="alarm-start" checked> Beep on session start
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:0.88rem;">
+        <input type="checkbox" id="alarm-10min" checked> Alarm at 10-minute warning
+      </label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:0.88rem;">
+        <input type="checkbox" id="alarm-end" checked> Alarm when session ends
+      </label>
+    </div>
+  </div>
+
+  <!-- Study structure reference -->
+  <div class="card">
+    <div class="card-title">📋 Daily Study Structure</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:10px;">
+      <div class="week-block" style="margin-bottom:0">
+        <div class="week-label">Weekdays (2 hrs total)</div>
+        <div style="font-size:0.85rem;line-height:1.7">
+          ⏱ 60 min → Learning (course / reading)<br>
+          ⏱ 60 min → Practice / project work
+        </div>
+      </div>
+      <div class="week-block" style="margin-bottom:0">
+        <div class="week-label">Weekends (4 hrs total)</div>
+        <div style="font-size:0.85rem;line-height:1.7">
+          ⏱ 2 hrs → Deep work / project building<br>
+          ⏱ 2 hrs → Revision + documentation
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 5: SCHEDULE
+────────────────────────────────── -->
+<section id="tab-schedule" class="tab-panel">
+  <h2 class="section-title">📅 Weekly Schedule</h2>
+  <p class="section-sub">Your fixed blocks based on your work hours. <button class="btn btn-sm btn-green" onclick="openTimeModal()">✏️ Modify Study Time</button></p>
+
+  <div class="info-box">⏰ <strong>Current study window:</strong> Weekdays after <span id="wd-study-display">18:00</span> · Weekends after <span id="we-study-display">16:30</span></div>
+
+  <div class="schedule-grid" id="schedule-grid">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Reminder setup -->
+  <div class="card">
+    <div class="card-title">🔔 Phone Reminder Setup</div>
+    <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:12px;">Reminders trigger via Google Calendar (see the Google Calendar tab). Set up events there to get push notifications on your phone:</p>
+    <ul style="font-size:0.88rem;line-height:2;padding-left:20px;">
+      <li>📲 <strong>30-minute warning:</strong> "Get ready for study session!" notification</li>
+      <li>🔔 <strong>Session start:</strong> "Study time starts NOW" notification</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 6: GOOGLE CALENDAR
+────────────────────────────────── -->
+<section id="tab-gcal" class="tab-panel">
+  <h2 class="section-title">🗓️ Google Calendar Integration</h2>
+  <p class="section-sub">One-click setup — all 12 weeks of study sessions added to your phone calendar with reminders.</p>
+
+  <!-- ═══ BIG INTEGRATION BUTTON CARD ═══ -->
+  <div style="background:linear-gradient(135deg,#1a73e8 0%,#0d47a1 100%);border-radius:12px;padding:32px 28px;margin-bottom:24px;box-shadow:0 6px 28px rgba(26,115,232,0.28);color:#fff;text-align:center;">
+    <div style="font-size:2.4rem;margin-bottom:10px;">📅</div>
+    <h2 style="font-family:var(--font-head);font-size:1.35rem;margin-bottom:8px;font-weight:700;">Connect to Google Calendar</h2>
+    <p style="font-size:0.88rem;opacity:0.88;margin-bottom:22px;max-width:420px;margin-left:auto;margin-right:auto;">
+      Automatically creates all 12 weeks of study sessions with <strong>30-minute "Get Ready" reminders</strong> and <strong>on-time alerts</strong> — pushed directly to your phone.
+    </p>
+    <!-- Step 1 button — opens Apps Script with pre-filled project -->
+    <a href="https://script.google.com/create" target="_blank" id="gcal-main-btn"
+       style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:#1a73e8;
+              font-weight:700;font-size:0.95rem;padding:14px 28px;border-radius:8px;
+              text-decoration:none;box-shadow:0 2px 12px rgba(0,0,0,0.18);
+              transition:all .15s;border:none;cursor:pointer;"
+       onmouseover="this.style.background='#e8f0fe'" onmouseout="this.style.background='#fff'">
+      <svg width="20" height="20" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="4" fill="#1a73e8"/>
+        <path d="M34 14H14C11.8 14 10 15.8 10 18v18c0 2.2 1.8 4 4 4h20c2.2 0 4-1.8 4-4V18c0-2.2-1.8-4-4-4z" fill="white"/>
+        <path d="M14 22h20M14 28h12M24 14v-4" stroke="#1a73e8" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      🚀 Open Google Apps Script &amp; Integrate
+    </a>
+    <div style="margin-top:14px;font-size:0.78rem;opacity:0.75;">Then paste the code below → Run → Done in 60 seconds</div>
+
+    <!-- Quick-add TODAY buttons -->
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px;" id="gcal-links"></div>
+  </div>
+
+  <!-- ═══ VISUAL STEP-BY-STEP FLOW ═══ -->
+  <div class="gcal-card" style="margin-bottom:20px;">
+    <h3 style="margin-bottom:16px;">⚡ 5-Step Setup (60 seconds)</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+      <div style="text-align:center;padding:14px 10px;background:var(--surface2);border-radius:8px;">
+        <div style="font-size:1.5rem;margin-bottom:6px;">1️⃣</div>
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:4px;">Open Script</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Click the button above → New Project opens</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;background:var(--surface2);border-radius:8px;">
+        <div style="font-size:1.5rem;margin-bottom:6px;">2️⃣</div>
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:4px;">Paste Code</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Copy the script below, delete default code, paste it</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;background:var(--surface2);border-radius:8px;">
+        <div style="font-size:1.5rem;margin-bottom:6px;">3️⃣</div>
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:4px;">Save &amp; Run</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Hit Save (💾), select <code>setupStudySessions</code>, click ▶ Run</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;background:var(--surface2);border-radius:8px;">
+        <div style="font-size:1.5rem;margin-bottom:6px;">4️⃣</div>
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:4px;">Authorize</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">Allow Calendar access when Google prompts you</div>
+      </div>
+      <div style="text-align:center;padding:14px 10px;background:#d1fae5;border-radius:8px;border:1.5px solid #6ee7b7;">
+        <div style="font-size:1.5rem;margin-bottom:6px;">✅</div>
+        <div style="font-weight:700;font-size:0.82rem;margin-bottom:4px;color:var(--accent3);">Done!</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);">All 12 weeks appear in Google Calendar + phone alerts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COPY-PASTE CODE BLOCK ═══ -->
+  <div class="gcal-card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <h3>📄 Google Apps Script — Paste This Code</h3>
+      <button class="copy-btn" style="font-size:0.82rem;padding:6px 16px;" onclick="copyCodeAndHighlight()">📋 Copy Code</button>
+    </div>
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:8px;">Select all (Ctrl+A) or use the Copy button above, then paste into Apps Script editor.</div>
+    <div class="code-block" id="gcal-code">
+<span class="cm">// ═══════════════════════════════════════════════════════════</span>
+<span class="cm">// DATA ENGINEERING ROADMAP — Google Calendar Auto-Setup</span>
+<span class="cm">// Paste this in Google Apps Script (script.google.com)</span>
+<span class="cm">// Run: setupStudySessions() → authorize → done!</span>
+<span class="cm">// ═══════════════════════════════════════════════════════════</span>
+
+<span class="cm">// ── CONFIGURATION ──────────────────────────────────────────</span>
+<span class="kw">const</span> CONFIG = {
+  <span class="cm">// Study start times (24h format)</span>
+  weekdayStudyHour:   <span class="str">18</span>,   <span class="cm">// 6:00 PM (after work ends 17:30)</span>
+  weekdayStudyMin:    <span class="str">00</span>,
+  weekendStudyHour:   <span class="str">16</span>,   <span class="cm">// 4:00 PM (after work ends 16:00)</span>
+  weekendStudyMin:    <span class="str">30</span>,
+
+  <span class="cm">// Session durations (minutes)</span>
+  weekdayDuration:    <span class="str">120</span>,  <span class="cm">// 2 hours</span>
+  weekendDuration:    <span class="str">240</span>,  <span class="cm">// 4 hours</span>
+
+  <span class="cm">// Reminder minutes before session</span>
+  reminderPrepMin:    <span class="str">30</span>,   <span class="cm">// "Get ready" 30 min before</span>
+  reminderStartMin:   <span class="str">0</span>,    <span class="cm">// Reminder AT session start</span>
+
+  <span class="cm">// Calendar settings</span>
+  calendarName:       <span class="str">'Data Engineering Study'</span>,
+  color:              CalendarApp.EventColor.CYAN,
+
+  <span class="cm">// Roadmap start (change if needed)</span>
+  startDate:          <span class="kw">new</span> Date(<span class="str">'2025-04-05'</span>),
+  totalWeeks:         <span class="str">12</span>
+};
+
+<span class="cm">// ── PHASE SCHEDULE ─────────────────────────────────────────</span>
+<span class="kw">const</span> PHASES = [
+  { weeks: [1,2],  label: <span class="str">'Phase 1 — SQL'</span>,          emoji: <span class="str">'🗄️'</span>  },
+  { weeks: [3,4],  label: <span class="str">'Phase 1 — Python'</span>,       emoji: <span class="str">'🐍'</span>  },
+  { weeks: [5,6],  label: <span class="str">'Phase 2 — ETL'</span>,          emoji: <span class="str">'⚙️'</span>  },
+  { weeks: [7,8],  label: <span class="str">'Phase 2 — Modeling'</span>,     emoji: <span class="str">'🔄'</span>  },
+  { weeks: [9,10], label: <span class="str">'Phase 3 — Cloud (GCP)'</span>,  emoji: <span class="str">'☁️'</span>  },
+  { weeks:[11,12], label: <span class="str">'Phase 3 — Final Project'</span>,emoji: <span class="str">'🚀'</span>  }
+];
+
+<span class="cm">// ── MAIN FUNCTION ───────────────────────────────────────────</span>
+<span class="kw">function</span> setupStudySessions() {
+  <span class="kw">const</span> cal = getOrCreateCalendar(CONFIG.calendarName);
+
+  <span class="cm">// Loop through 12 weeks = 84 days</span>
+  <span class="kw">for</span> (<span class="kw">let</span> week = 1; week &lt;= CONFIG.totalWeeks; week++) {
+    <span class="kw">const</span> phase = getPhase(week);
+    <span class="kw">const</span> weekStart = addDays(CONFIG.startDate, (week - 1) * 7);
+
+    <span class="cm">// Monday–Friday (weekdays)</span>
+    <span class="kw">for</span> (<span class="kw">let</span> d = 0; d &lt; 5; d++) {
+      <span class="kw">const</span> day = addDays(weekStart, d);
+      createStudyEvent(cal, day, <span class="str">'weekday'</span>, week, phase);
+    }
+
+    <span class="cm">// Sunday only (Saturday is work day)</span>
+    <span class="kw">const</span> sunday = addDays(weekStart, 6);
+    createStudyEvent(cal, sunday, <span class="str">'weekend'</span>, week, phase);
+  }
+
+  Logger.log(<span class="str">'✅ Done! All 12 weeks of study sessions have been added to your Google Calendar with phone reminders.'</span>);
+}
+
+<span class="cm">// ── CREATE ONE EVENT ────────────────────────────────────────</span>
+<span class="kw">function</span> createStudyEvent(cal, date, type, week, phase) {
+  <span class="kw">const</span> isWeekend = (type === <span class="str">'weekend'</span>);
+  <span class="kw">const</span> h = isWeekend ? CONFIG.weekendStudyHour   : CONFIG.weekdayStudyHour;
+  <span class="kw">const</span> m = isWeekend ? CONFIG.weekendStudyMin    : CONFIG.weekdayStudyMin;
+  <span class="kw">const</span> dur = isWeekend ? CONFIG.weekendDuration  : CONFIG.weekdayDuration;
+
+  <span class="kw">const</span> start = <span class="kw">new</span> Date(date);
+  start.setHours(h, m, 0, 0);
+
+  <span class="kw">const</span> end = <span class="kw">new</span> Date(start);
+  end.setMinutes(end.getMinutes() + dur);
+
+  <span class="kw">const</span> title = <span class="str">`${phase.emoji} ${phase.label} | Week ${week} Study`</span>;
+  <span class="kw">const</span> desc = buildDescription(week, isWeekend, phase);
+
+  <span class="kw">const</span> event = cal.createEvent(title, start, end, {
+    description: desc,
+    location:    <span class="str">'Home Study'</span>
+  });
+
+  <span class="cm">// Set event color by phase</span>
+  event.setColor(CONFIG.color);
+
+  <span class="cm">// ── REMINDERS (phone push notifications) ──</span>
+  event.addPopupReminder(CONFIG.reminderPrepMin);   <span class="cm">// 30 min: get ready!</span>
+  event.addPopupReminder(CONFIG.reminderStartMin);  <span class="cm">// 0 min: start now!</span>
+}
+
+<span class="cm">// ── HELPER: Get phase info for a given week ─────────────────</span>
+<span class="kw">function</span> getPhase(week) {
+  <span class="kw">return</span> PHASES.find(p => p.weeks.includes(week)) ||
+         { label: <span class="str">'Study'</span>, emoji: <span class="str">'📚'</span> };
+}
+
+<span class="cm">// ── HELPER: Build event description ────────────────────────</span>
+<span class="kw">function</span> buildDescription(week, isWeekend, phase) {
+  <span class="kw">if</span> (isWeekend) {
+    <span class="kw">return</span> <span class="str">`📅 Weekend Study Block — 4 Hours
+🎯 Phase: ${phase.label}
+📍 Week ${week} of 12
+
+Block 1 (2 hrs): Deep Work / Project Building
+Block 2 (2 hrs): Revision + Documentation + GitHub Push
+
+⚠️ Rules: Always code. Never just watch tutorials.
+🔗 GitHub: Push at least 1 commit today.
+📊 Roadmap: https://[your-github-username].github.io/data-roadmap`</span>;
+  }
+  <span class="kw">return</span> <span class="str">`📅 Weekday Study Block — 2 Hours
+🎯 Phase: ${phase.label}
+📍 Week ${week} of 12
+
+Block 1 (60 min): Course Learning
+Block 2 (60 min): Practice / Project Work
+
+⚠️ Rules: Write 1 example yourself. No copy-paste.
+🔗 GitHub: Push even small progress.
+📊 Roadmap: https://[your-github-username].github.io/data-roadmap`</span>;
+}
+
+<span class="cm">// ── HELPER: Get or create named calendar ────────────────────</span>
+<span class="kw">function</span> getOrCreateCalendar(name) {
+  <span class="kw">const</span> cals = CalendarApp.getCalendarsByName(name);
+  <span class="kw">if</span> (cals.length > 0) <span class="kw">return</span> cals[0];
+  <span class="kw">return</span> CalendarApp.createCalendar(name, {
+    summary: <span class="str">'Data Engineering 3-Month Study Plan'</span>,
+    color:   <span class="str">'#0288d1'</span>
+  });
+}
+
+<span class="cm">// ── HELPER: Add days to date ────────────────────────────────</span>
+<span class="kw">function</span> addDays(date, n) {
+  <span class="kw">const</span> d = <span class="kw">new</span> Date(date);
+  d.setDate(d.getDate() + n);
+  <span class="kw">return</span> d;
+}
+
+<span class="cm">// ── BONUS: Delete all created events (for reset) ────────────</span>
+<span class="kw">function</span> deleteStudyCalendar() {
+  <span class="kw">const</span> cals = CalendarApp.getCalendarsByName(CONFIG.calendarName);
+  <span class="kw">if</span> (cals.length > 0) {
+    cals[0].deleteCalendar();
+    Logger.log(<span class="str">'🗑️ Study calendar deleted.'</span>);
+  }
+}
+    </div>
+  </div>
+
+    </div><!-- /code-block -->
+  </div><!-- /gcal-card -->
+
+  <!-- ═══ WHAT GETS CREATED ═══ -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:20px;">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <div style="font-size:1.3rem;margin-bottom:6px;">📲</div>
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">Phone Notifications</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);">30-min "Get Ready" alert + on-time "Start Now" alert on every session</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent3);">
+      <div style="font-size:1.3rem;margin-bottom:6px;">📅</div>
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">84 Study Events</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);">Mon–Fri weekday blocks (2 hrs) + Sunday weekend blocks (4 hrs) across 12 weeks</div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent2);">
+      <div style="font-size:1.3rem;margin-bottom:6px;">🎨</div>
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">Colour-Coded Phases</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);">Each event labelled with its phase emoji and week number for easy tracking</div>
+    </div>
+    <div class="card" style="border-top:3px solid #8b5cf6;">
+      <div style="font-size:1.3rem;margin-bottom:6px;">🗑️</div>
+      <div style="font-weight:700;font-size:0.88rem;margin-bottom:4px;">Easy Reset</div>
+      <div style="font-size:0.82rem;color:var(--text-muted);">Run <code>deleteStudyCalendar()</code> in the script anytime to wipe and start fresh</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ──────────────────────────────────
+     TAB 7: DAILY LOG
+────────────────────────────────── -->
+<section id="tab-log" class="tab-panel">
+  <h2 class="section-title">📒 Daily Log</h2>
+  <p class="section-sub">Track each day's progress. Keep it simple — consistency is the goal.</p>
+
+  <!-- Add log entry -->
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">➕ Log Today's Session</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-top:10px;">
+      <div class="form-group" style="margin:0;flex:1;min-width:200px;">
+        <label>What did you study?</label>
+        <input type="text" id="log-input" placeholder="e.g. SQL JOINs + 8 practice questions" style="width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:6px;font-family:var(--font-body);font-size:0.88rem;background:var(--bg);">
+      </div>
+      <div>
+        <button class="btn btn-green" onclick="addLogEntry(true)">✅ Done</button>
+        <button class="btn btn-secondary" style="background:var(--surface2);color:var(--text);margin-left:6px;" onclick="addLogEntry(false)">⏭ Skipped</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Log entries -->
+  <div class="daily-log" id="log-container">
+    <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.88rem;">No log entries yet. Start your first session!</div>
+  </div>
+
+  <!-- Example format -->
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title" style="font-size:0.88rem;">📋 Example Log Format</div>
+    <div class="code-block" style="font-size:0.78rem;">Day 1 ✔ SQL SELECT + 5 questions
+Day 2 ✔ JOIN + 8 questions
+Day 3 ✔ GROUP BY + dataset practice
+Day 4 ✔ Subqueries + 10 Leetcode problems
+Day 5 ✔ Python Pandas basics
+Day 6 ✔ Sales CSV analysis — pushed to GitHub
+Day 7 — Weekly review + planning</div>
+  </div>
+</section>
+
+</div><!-- /page-wrap -->
+
+<!-- ════════════════════════════════════
+     CUSTOMIZE TIME MODAL
+════════════════════════════════════ -->
+<div class="modal-overlay" id="time-modal">
+  <div class="modal">
+    <h3>⚙️ Modify Study Times</h3>
+    <div class="form-group">
+      <label>Weekday Study Start Time</label>
+      <input type="time" id="wd-start" value="18:00">
+    </div>
+    <div class="form-group">
+      <label>Weekday Session Duration (minutes)</label>
+      <input type="number" id="wd-dur" value="120" min="30" max="300">
+    </div>
+    <div class="form-group">
+      <label>Weekend Study Start Time</label>
+      <input type="time" id="we-start" value="16:30">
+    </div>
+    <div class="form-group">
+      <label>Weekend Session Duration (minutes)</label>
+      <input type="number" id="we-dur" value="240" min="30" max="480">
+    </div>
+    <div class="form-group">
+      <label>Roadmap Start Date</label>
+      <input type="date" id="start-date-input">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-outline" onclick="closeTimeModal()">Cancel</button>
+      <button class="btn btn-primary" style="background:var(--accent);color:#fff;" onclick="saveTimeSettings()">Save &amp; Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- ALARM TOAST -->
+<div class="alarm-toast" id="alarm-toast">
+  <h4 id="alarm-title">⏰ Alarm</h4>
+  <p id="alarm-msg">Time check!</p>
+</div>
+
+<!-- ════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════ -->
+<script>
+/* ───────────────────────────────────
+   STATE
+──────────────────────────────────── */
+let settings = JSON.parse(localStorage.getItem('de-roadmap-settings') || 'null') || {
+  startDate:    new Date().toISOString().slice(0,10),
+  wdStart:      '18:00',
+  wdDur:        120,
+  weStart:      '16:30',
+  weDur:        240
+};
+
+let checks = JSON.parse(localStorage.getItem('de-roadmap-checks') || '{}');
+let logs   = JSON.parse(localStorage.getItem('de-roadmap-logs')   || '[]');
+
+/* Timer state */
+let timerInterval = null;
+let timerSeconds  = 60 * 60;    // default 60 min
+let timerTotal    = 60 * 60;
+let timerRunning  = false;
+let warned10      = false;
+let sessionName   = 'Weekday Learning';
+
+/* ───────────────────────────────────
+   INIT
+──────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  initDates();
+  renderAllTasks();
+  renderSchedule();
+  renderLog();
+  updateProgressBars();
+  renderGcalLinks();
+
+  // Restore settings form
+  document.getElementById('start-date-input').value = settings.startDate;
+  document.getElementById('wd-start').value = settings.wdStart;
+  document.getElementById('wd-dur').value   = settings.wdDur;
+  document.getElementById('we-start').value = settings.weStart;
+  document.getElementById('we-dur').value   = settings.weDur;
+});
+
+/* ───────────────────────────────────
+   DATES
+──────────────────────────────────── */
+function initDates() {
+  const today   = new Date();
+  const start   = new Date(settings.startDate);
+  const end     = new Date(start); end.setDate(end.getDate()+89);
+
+  // header badge
+  document.getElementById('current-date-badge').textContent =
+    today.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+
+  document.getElementById('end-date-label').textContent =
+    end.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+
+  document.getElementById('start-date-label2').textContent =
+    start.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+
+  // Days elapsed
+  const elapsed = Math.max(0, Math.min(90, Math.floor((today - start)/(1000*60*60*24))));
+  document.getElementById('days-elapsed').textContent = elapsed;
+  document.getElementById('days-remain').textContent  = Math.max(0, 90 - elapsed);
+
+  // Phase date labels
+  const fmt = d => d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+  const w = n => { const d = new Date(start); d.setDate(d.getDate()+n*7); return d; };
+  document.getElementById('p1-dates').textContent = `${fmt(start)} – ${fmt(w(4))}`;
+  document.getElementById('p2-dates').textContent = `${fmt(w(4))} – ${fmt(w(8))}`;
+  document.getElementById('p3-dates').textContent = `${fmt(w(8))} – ${fmt(w(12))}`;
+
+  // Schedule display
+  document.getElementById('wd-study-display').textContent = settings.wdStart;
+  document.getElementById('we-study-display').textContent = settings.weStart;
+}
+
+/* ───────────────────────────────────
+   TASK DATA
+──────────────────────────────────── */
+const TASKS = {
+  'p1-w12': [
+    { key:'p1-1',  label:'Learn SELECT, WHERE, ORDER BY',           phase:1 },
+    { key:'p1-2',  label:'Learn JOINs (INNER, LEFT, RIGHT)',        phase:1 },
+    { key:'p1-3',  label:'Learn GROUP BY and HAVING',               phase:1 },
+    { key:'p1-4',  label:'Learn Subqueries and CTEs',               phase:1 },
+    { key:'p1-5',  label:'Solve 50+ SQL practice problems',         phase:1 },
+    { key:'p1-6',  label:'Build sample queries (sales / user data)',phase:1 },
+  ],
+  'p1-w34': [
+    { key:'p1-7',  label:'Learn Pandas basics (Series, DataFrame)', phase:1 },
+    { key:'p1-8',  label:'Load and read CSV/JSON files',            phase:1 },
+    { key:'p1-9',  label:'Data cleaning (nulls, dtypes, rename)',   phase:1 },
+    { key:'p1-10', label:'Basic scripting and automation',          phase:1 },
+    { key:'p1-11', label:'Mini Project: Sales Data Analysis Script',phase:1 },
+    { key:'p1-12', label:'Push Sales Analysis to GitHub',           phase:1 },
+  ],
+  'p2-w56': [
+    { key:'p2-1',  label:'Understand Extract–Transform–Load cycle', phase:2 },
+    { key:'p2-2',  label:'Fetch data from a public API',            phase:2 },
+    { key:'p2-3',  label:'Build data cleaning pipeline in Python',  phase:2 },
+    { key:'p2-4',  label:'Project 1: API → PostgreSQL pipeline',    phase:2 },
+    { key:'p2-5',  label:'Write SQL to verify loaded data',         phase:2 },
+  ],
+  'p2-w78': [
+    { key:'p2-6',  label:'Learn Airflow basics (DAGs, tasks)',      phase:2 },
+    { key:'p2-7',  label:'Understand star schema + fact/dim tables',phase:2 },
+    { key:'p2-8',  label:'Data warehousing concepts',               phase:2 },
+    { key:'p2-9',  label:'Project 2: Automated pipeline scheduled', phase:2 },
+    { key:'p2-10', label:'Document both projects with README',      phase:2 },
+  ],
+  'p3-w910': [
+    { key:'p3-1',  label:'Create Google Cloud Platform account',    phase:3 },
+    { key:'p3-2',  label:'Learn BigQuery — tables, queries, cost',  phase:3 },
+    { key:'p3-3',  label:'Upload dataset to Cloud Storage (GCS)',   phase:3 },
+    { key:'p3-4',  label:'Query cloud data via BigQuery',           phase:3 },
+    { key:'p3-5',  label:'Basic cloud pipeline deployment',         phase:3 },
+  ],
+  'p3-w1112': [
+    { key:'p3-6',  label:'Project 3: Extract from API',             phase:3 },
+    { key:'p3-7',  label:'Store raw data in Cloud Storage',         phase:3 },
+    { key:'p3-8',  label:'Transform data with Python',              phase:3 },
+    { key:'p3-9',  label:'Load transformed data into BigQuery',     phase:3 },
+    { key:'p3-10', label:'Build simple query dashboard / report',   phase:3 },
+    { key:'p3-11', label:'Polish GitHub README and documentation',  phase:3 },
+    { key:'p3-12', label:'Start applying to Junior DE / DA roles',  phase:3 },
+  ],
+  'github-checklist': [
+    { key:'gh-1', label:'Repo 1: SQL practice queries collection',      phase:1 },
+    { key:'gh-2', label:'Repo 2: Python Sales Data Analysis project',   phase:1 },
+    { key:'gh-3', label:'Repo 3: API → PostgreSQL pipeline',           phase:2 },
+    { key:'gh-4', label:'Repo 4: Automated pipeline (main project)',    phase:3 },
+  ],
+  'wd-b1': [
+    { key:'wd-b1-1', label:'Watch/read lesson from DataCamp or Educative.io' },
+    { key:'wd-b1-2', label:'Take short notes (max 5 bullet points)'         },
+    { key:'wd-b1-3', label:'Write 1 example yourself (no copy-paste)'       },
+  ],
+  'wd-b2': [
+    { key:'wd-b2-1', label:'Solve 5–10 exercises'                },
+    { key:'wd-b2-2', label:'Work on current project'             },
+    { key:'wd-b2-3', label:'Push progress to GitHub (even small)'},
+  ],
+  'we-b1': [
+    { key:'we-b1-1', label:'Build a project feature'    },
+    { key:'we-b1-2', label:'Debug errors'               },
+    { key:'we-b1-3', label:'Refactor and clean code'    },
+  ],
+  'we-b2': [
+    { key:'we-b2-1', label:'Revise past topics'                   },
+    { key:'we-b2-2', label:'Solve additional problems'            },
+    { key:'we-b2-3', label:'Improve README documentation'         },
+    { key:'we-b2-4', label:'Push at least 1 commit to GitHub'     },
+  ],
+  'weekly-check': [
+    { key:'wk-1', label:'What did I complete this week?'        },
+    { key:'wk-2', label:'What topics are still unclear?'        },
+    { key:'wk-3', label:'Did I push code to GitHub 4+ times?'   },
+    { key:'wk-4', label:'Am I improving in speed and confidence?'},
+  ],
+  'prod-rules': [
+    { key:'pr-1', label:'No skipping days — consistency over intensity'     },
+    { key:'pr-2', label:'Always code (never just watch)'                    },
+    { key:'pr-3', label:'Keep projects simple but complete'                 },
+    { key:'pr-4', label:'Push to GitHub at least 4 times/week'             },
+    { key:'pr-5', label:'Solve SQL daily (even if just 2–3 problems)'      },
+  ],
+  'outcomes-list': [] // populated inline
+};
+
+function renderTaskList(containerId, tasks) {
+  const ul = document.getElementById(containerId);
+  if (!ul || !tasks) return;
+  ul.innerHTML = tasks.map(t => {
+    const done = !!checks[t.key];
+    return `<li class="task-item ${done?'done':''}" data-key="${t.key}">
+      <input type="checkbox" class="task-cb" ${done?'checked':''} onchange="toggleTask(this)">
+      <label class="task-label">${t.label}</label>
+    </li>`;
+  }).join('');
+}
+
+function renderAllTasks() {
+  Object.entries(TASKS).forEach(([id, tasks]) => renderTaskList(id, tasks));
+}
+
+/* ───────────────────────────────────
+   TOGGLE TASK
+──────────────────────────────────── */
+function toggleTask(cb) {
+  const li  = cb.closest('.task-item');
+  const key = li.dataset.key;
+  checks[key] = cb.checked;
+  li.classList.toggle('done', cb.checked);
+  localStorage.setItem('de-roadmap-checks', JSON.stringify(checks));
+  updateProgressBars();
+}
+
+/* ───────────────────────────────────
+   PROGRESS BARS
+──────────────────────────────────── */
+function countPhase(phaseNum) {
+  const all = Object.values(TASKS).flat().filter(t => t.phase === phaseNum);
+  const done = all.filter(t => checks[t.key]).length;
+  return { done, total: all.length };
+}
+
+function updateProgressBars() {
+  // All tasks
+  const all  = Object.values(TASKS).flat();
+  const done = all.filter(t => checks[t.key]).length;
+  const pct  = all.length ? Math.round(done/all.length*100) : 0;
+
+  document.getElementById('tasks-done-count').textContent = done;
+  document.getElementById('overall-bar').style.width      = pct + '%';
+  document.getElementById('pct-label').textContent        = pct + '%';
+  document.getElementById('progress-badge').textContent   = pct + '% Complete';
+
+  // Per phase
+  [1,2,3].forEach(p => {
+    const {done:pd, total:pt} = countPhase(p);
+    const ppct = pt ? Math.round(pd/pt*100) : 0;
+    document.getElementById(`bar-p${p}`).style.width      = ppct + '%';
+    document.getElementById(`p${p}-done`).textContent     = pd;
+    document.getElementById(`p${p}-total`).textContent    = pt;
+  });
+}
+
+/* ───────────────────────────────────
+   SCHEDULE RENDER
+──────────────────────────────────── */
+function renderSchedule() {
+  const days = [
+    { label:'Monday',    type:'weekday', work:['06:30','17:30'] },
+    { label:'Tuesday',   type:'weekday', work:['06:30','17:30'] },
+    { label:'Wednesday', type:'weekday', work:['06:30','17:30'] },
+    { label:'Thursday',  type:'weekday', work:['06:30','17:30'] },
+    { label:'Friday',    type:'weekday', work:['06:30','17:30'] },
+    { label:'Saturday',  type:'saturday',work:['06:00','16:00'] },
+    { label:'Sunday',    type:'weekend', work:null               },
+  ];
+
+  const grid = document.getElementById('schedule-grid');
+  grid.innerHTML = days.map(d => {
+    let slots = '';
+    if (d.work) {
+      slots += `<div class="sched-slot work">
+        <span class="slot-time">${d.work[0]}–${d.work[1]}</span>
+        <span class="slot-label">💼 Work</span></div>`;
+    }
+    if (d.type === 'weekday') {
+      const dur = Math.round(settings.wdDur/60*10)/10;
+      slots += `<div class="sched-slot study">
+        <span class="slot-time">${settings.wdStart}</span>
+        <span class="slot-label">📚 Study (${dur}h)</span></div>`;
+    }
+    if (d.type === 'saturday') {
+      slots += `<div class="sched-slot free">
+        <span class="slot-time">16:00+</span>
+        <span class="slot-label">🌙 Rest / Light review</span></div>`;
+    }
+    if (d.type === 'weekend') {
+      const dur = Math.round(settings.weDur/60*10)/10;
+      slots += `<div class="sched-slot study">
+        <span class="slot-time">${settings.weStart}</span>
+        <span class="slot-label">📚 Study (${dur}h)</span></div>`;
+      slots += `<div class="sched-slot free">
+        <span class="slot-time">Morning</span>
+        <span class="slot-label">🌅 Rest / Plan week</span></div>`;
+    }
+    return `<div class="sched-day">
+      <div class="sched-day-label">${d.label}</div>${slots}</div>`;
+  }).join('');
+}
+
+/* ───────────────────────────────────
+   TIMER
+──────────────────────────────────── */
+function setSession(minutes, name) {
+  if (timerRunning) return;
+  sessionName   = name;
+  timerSeconds  = minutes * 60;
+  timerTotal    = minutes * 60;
+  warned10      = false;
+  updateTimerDisplay();
+  document.getElementById('session-label').textContent = `Session: ${name} · ${minutes} minutes`;
+  document.getElementById('timer-status').textContent  = 'Ready to start. Press Start to begin your session.';
+  // Update active button
+  document.querySelectorAll('.stype-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-pause').disabled = false;
+  document.getElementById('timer-status').textContent = '🟢 Session in progress…';
+
+  if (document.getElementById('alarm-start').checked) beep(440, 0.3, 2);
+
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+
+    // 10-minute warning
+    if (!warned10 && timerSeconds === 600) {
+      warned10 = true;
+      if (document.getElementById('alarm-10min').checked) {
+        beep(600, 0.5, 3);
+        showToast('⏰ 10 Minutes Left!', 'Wrap up and push your work to GitHub.');
+        if (Notification.permission === 'granted') {
+          new Notification('⏰ 10 Minutes Remaining', { body: 'Study session almost done. Save your work!' });
+        }
+      }
+    }
+
+    // End
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('btn-start').disabled = false;
+      document.getElementById('btn-pause').disabled = true;
+      document.getElementById('timer-status').textContent = '✅ Session complete! Well done.';
+      if (document.getElementById('alarm-end').checked) {
+        beep(880, 0.8, 5);
+        showToast('🎉 Session Complete!', `${sessionName} — Great work! Push your code to GitHub.`);
+      }
+    }
+  }, 1000);
+
+  // Request notification permission
+  if (Notification.permission === 'default') Notification.requestPermission();
+}
+
+function pauseTimer() {
+  if (!timerRunning) return;
+  timerRunning = false;
+  clearInterval(timerInterval);
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-pause').disabled = true;
+  document.getElementById('timer-status').textContent = '⏸ Paused. Press Start to continue.';
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  warned10     = false;
+  timerSeconds = timerTotal;
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('btn-pause').disabled = true;
+  document.getElementById('timer-status').textContent = 'Ready to start. Press Start to begin your session.';
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+  const s = (timerSeconds%60).toString().padStart(2,'0');
+  document.getElementById('timer-display').textContent = `${m}:${s}`;
+}
+
+/* ───────────────────────────────────
+   AUDIO (Web Audio API)
+──────────────────────────────────── */
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+function beep(freq, vol, times) {
+  let t = audioCtx.currentTime;
+  for (let i = 0; i < times; i++) {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.frequency.value = freq;
+    o.type = 'sine';
+    g.gain.setValueAtTime(vol, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
+    o.start(t); o.stop(t + 0.35);
+    t += 0.45;
+  }
+}
+
+/* ───────────────────────────────────
+   TOAST
+──────────────────────────────────── */
+function showToast(title, msg) {
+  const toast = document.getElementById('alarm-toast');
+  document.getElementById('alarm-title').textContent = title;
+  document.getElementById('alarm-msg').textContent   = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 6000);
+}
+
+/* ───────────────────────────────────
+   MODAL
+──────────────────────────────────── */
+function openTimeModal() {
+  document.getElementById('time-modal').classList.add('open');
+}
+function closeTimeModal() {
+  document.getElementById('time-modal').classList.remove('open');
+}
+function saveTimeSettings() {
+  settings.wdStart    = document.getElementById('wd-start').value;
+  settings.wdDur      = parseInt(document.getElementById('wd-dur').value);
+  settings.weStart    = document.getElementById('we-start').value;
+  settings.weDur      = parseInt(document.getElementById('we-dur').value);
+  settings.startDate  = document.getElementById('start-date-input').value;
+  localStorage.setItem('de-roadmap-settings', JSON.stringify(settings));
+  closeTimeModal();
+  initDates();
+  renderSchedule();
+  renderGcalLinks();
+  document.getElementById('wd-study-display').textContent = settings.wdStart;
+  document.getElementById('we-study-display').textContent = settings.weStart;
+}
+
+/* ───────────────────────────────────
+   GOOGLE CALENDAR QUICK-ADD LINKS
+──────────────────────────────────── */
+function renderGcalLinks() {
+  const today = new Date();
+  const fmt = d => d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const makeLink = (title, startH, startM, dur) => {
+    const s = new Date(today);
+    s.setHours(startH, startM, 0, 0);
+    const e = new Date(s); e.setMinutes(e.getMinutes() + dur);
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text:   title,
+      dates:  `${fmt(s)}/${fmt(e)}`,
+      details: 'Data Engineering Study Session — roadmap.github.io',
+      rem:    'popup:30'
+    });
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  };
+
+  const [wdH, wdM] = settings.wdStart.split(':').map(Number);
+  const [weH, weM] = settings.weStart.split(':').map(Number);
+
+  document.getElementById('gcal-links').innerHTML = `
+    <a href="${makeLink('📚 Weekday Study Session', wdH, wdM, settings.wdDur)}" target="_blank"
+       style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.18);
+              color:#fff;font-size:0.84rem;font-weight:600;padding:9px 18px;border-radius:7px;
+              text-decoration:none;border:1.5px solid rgba(255,255,255,0.4);transition:background .15s;"
+       onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
+      ➕ Add Today's Weekday Session
+    </a>
+    <a href="${makeLink('📚 Weekend Study Session', weH, weM, settings.weDur)}" target="_blank"
+       style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.18);
+              color:#fff;font-size:0.84rem;font-weight:600;padding:9px 18px;border-radius:7px;
+              text-decoration:none;border:1.5px solid rgba(255,255,255,0.4);transition:background .15s;"
+       onmouseover="this.style.background='rgba(255,255,255,0.28)'" onmouseout="this.style.background='rgba(255,255,255,0.18)'">
+      ➕ Add Weekend Session
+    </a>`;
+}
+
+/* ───────────────────────────────────
+   DAILY LOG
+──────────────────────────────────── */
+function addLogEntry(done) {
+  const input = document.getElementById('log-input');
+  const text  = input.value.trim();
+  if (!text) return alert('Enter what you studied first!');
+  const entry = {
+    date:  new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short'}),
+    day:   logs.length + 1,
+    text,
+    done
+  };
+  logs.push(entry);
+  localStorage.setItem('de-roadmap-logs', JSON.stringify(logs));
+  input.value = '';
+  renderLog();
+}
+
+function renderLog() {
+  const container = document.getElementById('log-container');
+  if (!logs.length) {
+    container.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-muted);font-size:0.88rem;">No log entries yet. Start your first session!</div>';
+    return;
+  }
+  container.innerHTML = [...logs].reverse().map((e,i) =>
+    `<div class="log-entry">
+      <span class="log-day">Day ${e.day}</span>
+      <span class="log-text">${e.text}</span>
+      <span class="log-status ${e.done?'done':'skip'}">${e.done?'✔ Done':'⏭ Skip'}</span>
+      <button onclick="deleteLog(${logs.length-1-i})" style="background:none;border:none;cursor:pointer;font-size:0.78rem;color:var(--text-muted);">✕</button>
+    </div>`
+  ).join('');
+}
+
+function deleteLog(idx) {
+  logs.splice(idx, 1);
+  localStorage.setItem('de-roadmap-logs', JSON.stringify(logs));
+  renderLog();
+}
+
+/* ───────────────────────────────────
+   TAB SWITCHING
+──────────────────────────────────── */
+function showTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ───────────────────────────────────
+   COPY CODE
+──────────────────────────────────── */
+function copyCode(id) {
+  const el   = document.getElementById(id);
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('📋 Copied!', 'Google Apps Script code copied to clipboard.');
+  });
+}
+
+function copyCodeAndHighlight() {
+  const el   = document.getElementById('gcal-code');
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    // Visual flash on the code block
+    el.style.outline = '3px solid #1a73e8';
+    el.style.transition = 'outline .2s';
+    showToast('📋 Code Copied!', 'Now paste it into Google Apps Script and click ▶ Run.');
+    setTimeout(() => { el.style.outline = 'none'; }, 1800);
+  });
+}
+
+/* ───────────────────────────────────
+   SET CUSTOM SESSION (from modal)
+──────────────────────────────────── */
+function setCustomTimerDuration(minutes) {
+  if (timerRunning) return;
+  timerSeconds = minutes * 60;
+  timerTotal   = minutes * 60;
+  warned10     = false;
+  updateTimerDisplay();
+}
+</script>
+</body>
+</html>
